@@ -1,15 +1,17 @@
 # skeleton
 
-class skeleton inherits skeleton::params (
+class skeleton (
 
   $cron_manage = $skeleton::params::cron_manage,
 
-) {
+) inherits skeleton::params {
 
-  anchor { 'skeleton::begin': }
-  -> class { 'skeleton::install': }
-  -> class { 'skeleton::config': }
-  -> class { 'skeleton::service': }
-  -> anchor { 'skeleton::end': }
+  contain 'skeleton::install'
+  contain 'skeleton::config'
+  contain 'skeleton::service'
+
+  Class['skeleton::install']  ->
+  Class['skeleton::config']   ->
+  Class['skeleton::service']
 
 }
